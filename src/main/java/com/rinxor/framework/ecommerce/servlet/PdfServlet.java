@@ -93,6 +93,7 @@ public abstract class PdfServlet extends HttpServlet implements IPdfServlet {
             response.setDateHeader("Expires", System.currentTimeMillis() + 30000);
 
             response.getOutputStream().write(out.toByteArray());
+            out.flush();
             response.getOutputStream().flush();
 
     }

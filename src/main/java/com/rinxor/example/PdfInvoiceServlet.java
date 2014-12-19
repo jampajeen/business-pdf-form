@@ -81,11 +81,11 @@ public class PdfInvoiceServlet extends PdfServlet implements IPdfServlet {
             writer.writeEndElement();
             
             writer.writeStartElement("CompanyName");
-            writer.writeCharacters("รินเซอร์");
+            writer.writeCharacters("บริษัท รินเซอร์ จำกัด");
             writer.writeEndElement();
             
             writer.writeStartElement("StreetAddress");
-            writer.writeCharacters("สุทธิสาร");
+            writer.writeCharacters("เลขที่ 93 สุทธิสาร");
             writer.writeEndElement();
             
             writer.writeStartElement("City");

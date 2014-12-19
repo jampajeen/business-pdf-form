@@ -23,9 +23,9 @@
                 <!-- header -->
                 <fo:static-content flow-name="xsl-region-before">
                     <xsl:apply-templates select="CompanyAddress" />
-                    <fo:block font-size="18pt"
-                              line-height="1.5em" background-color="black" color="white"
-                              text-align="center">Invoice</fo:block>
+                    <fo:block font-size="16pt"
+                              line-height="1.5em" background-color="#ededed" color="black" padding="2.5pt"
+                              text-align="center">ใบแจ้งหนี้/Invoice</fo:block>
                 </fo:static-content>
                 <fo:static-content flow-name="xsl-region-after">
                     <fo:block text-align="end" font-size="10pt">
@@ -41,19 +41,19 @@
         </fo:root>
     </xsl:template>
     <xsl:template name="DisplayOrderInformation">
-        <fo:block text-align="right">
-            <fo:inline font-weight="bold">Id:</fo:inline>
+        <fo:block text-align="right" space-after="2.5pt" >
+            <fo:inline font-weight="bold">Id: </fo:inline> 
             <xsl:value-of select="./@OrderId" />
         </fo:block>
-        <fo:block text-align="right">
-            <fo:inline font-weight="bold">Order Date:</fo:inline>
+        <fo:block text-align="right" space-after="2.5pt">
+            <fo:inline font-weight="bold">Order Date: </fo:inline>
             <xsl:value-of select="./OrderDate" />
         </fo:block>
     </xsl:template>
     <xsl:template match="CustomerAddress">
-        <fo:block font-weight="bold" background-color="black" color="white"
-                  padding="2pt">CUSTOMER</fo:block>
-        <fo:block color="black" space-after="2em" border="solid black 1px" padding="2pt">
+        <fo:block font-weight="bold" background-color="#ededed" color="black" border="solid #cccccc 0.5pt" border-bottom-style="none"
+                  padding="2.5pt" margin="0pt">CUSTOMER</fo:block>
+        <fo:block color="black" space-after="2em" border="solid #cccccc 0.5pt" padding="2.5pt" margin="0pt"> 
             <xsl:apply-templates />
         </fo:block>
     </xsl:template>
@@ -77,6 +77,9 @@
                     <fo:table-cell>
                         <fo:block>
                             <fo:block text-align="right">
+                                <xsl:value-of select="./CompanyName" />
+                            </fo:block>
+                            <fo:block text-align="right">
                                 <xsl:value-of select="./StreetAddress" />
                             </fo:block>
                             <fo:block text-align="right">
@@ -87,13 +90,6 @@
                 </fo:table-row>
             </fo:table-body>
         </fo:table>
-    </xsl:template>
-    
-    <xsl:template match="CompanyAddress/CompanyName">
-        <fo:block font-weight="bold" background-color="black" color="white"
-                  padding="2pt">
-            <xsl:value-of select="." />
-        </fo:block>
     </xsl:template>
     
     <xsl:template match="CompanyName">
@@ -128,9 +124,10 @@
     </xsl:template>
     
     <xsl:template match="Items">
-        <fo:block font-weight="bold" background-color="black" color="white"
-                  padding="2pt">ITEMS</fo:block>
-        <fo:table width="100%">
+        <fo:block font-weight="bold" background-color="#ededed" color="black" border="solid #cccccc 0.5pt" border-bottom-style="none"
+                  padding="2.5pt" margin="0pt">Items</fo:block>
+            
+        <fo:table width="100%"> 
             <fo:table-column column-width="10%" />
             <fo:table-column column-width="15%" />
             <fo:table-column column-width="30%" />
@@ -139,22 +136,22 @@
             <fo:table-column column-width="15%" />
             <fo:table-header>
                 <fo:table-row>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">#</fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">Item ID</fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">Description</fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">Quantity</fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">Item Cost</fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">Total Cost</fo:block>
                     </fo:table-cell>
                 </fo:table-row>
@@ -162,12 +159,12 @@
             <fo:table-body>
                 <xsl:apply-templates />
                 <fo:table-row>
-                    <fo:table-cell border="solid black 1px"
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt"
                                    number-columns-spanned="5">
                         <fo:block font-weight="bold" text-align="right">Total
                         </fo:block>
                     </fo:table-cell>
-                    <fo:table-cell border="solid black 1px">
+                    <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                         <fo:block font-weight="bold">
                             <xsl:variable name="total">
                                 <!-- <xsl:apply-templates select="Item[1]" mode="calculateTotal" />-->
@@ -183,6 +180,7 @@
                 </fo:table-row>
             </fo:table-body>
         </fo:table>
+        
     </xsl:template>
 	
     <xsl:template name="calculateTotal">
@@ -220,32 +218,32 @@
     
     <xsl:template match="Item">
         <fo:table-row>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <fo:block>
                     <xsl:number/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <fo:block>
                     <xsl:value-of select="@ItemId" />
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <fo:block>
                     <xsl:value-of select="@ItemName" />
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <fo:block>
                     <xsl:value-of select="@Quantity" />
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <fo:block>
                     <xsl:value-of select="format-number(@ItemCost, '$#,##0.00')" />
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell border="solid black 1px">
+            <fo:table-cell border="solid #cccccc 0.5pt" padding="2.5pt">
                 <xsl:variable name="total" select="@Quantity * @ItemCost" />
                 <fo:block>
                     <xsl:value-of select="format-number($total, '$#,##0.00')" />
