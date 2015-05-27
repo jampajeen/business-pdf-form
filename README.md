@@ -1,4 +1,11 @@
 business-pdf-form
 =================
 
-PDF template for business using FOP
+PDF template for business
+
+Available pdf:
+- Invoice
+
+This example use fop-pdf-thai library for create pdf in thai language
+
+Please visit https://github.com/jampajeen/fop-pdf-thai for more information & usage

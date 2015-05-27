@@ -66,7 +66,7 @@
                 <fo:table-row>
                     <fo:table-cell>
                         <fo:block>
-                            <!--<fo:external-graphic src="url(D:\workspace\DwArticle5\resources\CompanyLogo.jpg)" />-->
+                            <!--<fo:external-graphic src="url(http://localhost:8080/business-pdf-form-1.0-SNAPSHOT/images/logo.png)" />-->
                             <fo:external-graphic content-height="1.0cm" src="">
                                 <xsl:attribute name="src">
                                     <xsl:value-of select="./HeaderLogo"/>

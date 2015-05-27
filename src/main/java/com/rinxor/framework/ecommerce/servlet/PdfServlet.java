@@ -15,9 +15,8 @@
  */
 package com.rinxor.framework.ecommerce.servlet;
 
-import com.rinxor.example.PdfInvoiceServlet;
+import com.rinxor.fop.pdf.thai.FopPdfThaiFactory;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.logging.Level;
@@ -34,6 +33,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -59,42 +59,37 @@ public abstract class PdfServlet extends HttpServlet implements IPdfServlet {
         this.transformerFactory = TransformerFactory.newInstance();
         this.transformerFactory.setURIResolver(this.uriResolver);
 
-        this.fopFactory = FopFactory.newInstance();
-        this.fopFactory.setURIResolver(this.uriResolver);
-
         try {
-            this.fopFactory.setUserConfig( new File( getFopConfigFilePath() ) );
-            
-        } catch (SAXException | IOException ex) {
-            Logger.getLogger(PdfInvoiceServlet.class.getName()).log(Level.SEVERE, null, ex);
+            this.fopFactory = FopPdfThaiFactory.newInstance((ServletContextURIResolver) this.uriResolver);
+
+        } catch (IOException | SAXException | javax.naming.ConfigurationException | ConfigurationException ex) {
+            Logger.getLogger(PdfServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    protected void writePDF(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FOPException, TransformerException {
-        
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+    protected void writePDF(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FOPException, TransformerException, SAXException, ConfigurationException {
 
-            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            //Source xsltSrc = this.uriResolver.resolve("servlet-context:/xslt/Invoice.xsl", null);
-            Source xsltSrc = new StreamSource( getUserXSLTFilePath() );
-            Transformer transformer = this.transformerFactory.newTransformer(xsltSrc);
-            //transformer.setURIResolver(this.uriResolver);
+        Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
-            Result res = new SAXResult(fop.getDefaultHandler());
+        Source xsltSrc = new StreamSource(getUserXSLTFilePath());
+        Transformer transformer = this.transformerFactory.newTransformer(xsltSrc);
 
-            Source src = new StreamSource(new StringReader( getXmlData() ));
+        Result res = new SAXResult(fop.getDefaultHandler());
 
-            transformer.transform(src, res);
+        Source src = new StreamSource(new StringReader(getXmlData()));
 
-            response.setContentType("application/pdf");
-            response.setContentLength(out.size());
-            response.setDateHeader("Expires", System.currentTimeMillis() + 30000);
+        transformer.transform(src, res);
 
-            response.getOutputStream().write(out.toByteArray());
-            out.flush();
-            response.getOutputStream().flush();
+        response.setContentType("application/pdf");
+        response.setContentLength(out.size());
+        response.setDateHeader("Expires", System.currentTimeMillis() + 30000);
+
+        response.getOutputStream().write(out.toByteArray());
+        out.flush();
+        response.getOutputStream().flush();
 
     }
 }

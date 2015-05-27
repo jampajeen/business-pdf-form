@@ -28,7 +28,9 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.TransformerException;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.fop.apps.FOPException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -46,6 +48,8 @@ public class PdfInvoiceServlet extends PdfServlet implements IPdfServlet {
             this.writePDF( request, response);
             
         } catch (FOPException | TransformerException ex) {
+            Logger.getLogger(PdfInvoiceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException | ConfigurationException ex) {
             Logger.getLogger(PdfInvoiceServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -142,6 +146,15 @@ public class PdfInvoiceServlet extends PdfServlet implements IPdfServlet {
             writer.writeAttribute("ItemCost", "120");
             writer.writeEndElement();
             
+            for(int i=0; i< 100;i++) {
+                writer.writeStartElement("Item");
+                writer.writeAttribute("ItemId", ""+i+1);
+                writer.writeAttribute("ItemName", "Microsoft Mouse V2");
+                writer.writeAttribute("Quantity", "20");
+                writer.writeAttribute("ItemCost", "120");
+                writer.writeEndElement();
+            }
+            
             writer.writeEndElement();
             
             writer.writeEndElement();
@@ -152,7 +165,7 @@ public class PdfInvoiceServlet extends PdfServlet implements IPdfServlet {
             writer.close();
             
             xmlData = out.toString();
-            
+            System.out.println(xmlData);
         } catch (XMLStreamException ex) {
             Logger.getLogger(PdfInvoiceServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,12 +174,7 @@ public class PdfInvoiceServlet extends PdfServlet implements IPdfServlet {
     }
 
     @Override
-    public String getFopConfigFilePath() {
-        return getServletContext().getRealPath("/WEB-INF/fop-th.xconf");
-    }
-
-    @Override
     public String getUserXSLTFilePath() {
-        return getServletContext().getRealPath("/xslt/Invoice.xsl");
+        return getServletContext().getRealPath("/xsl/Invoice.xsl");
     }
 }

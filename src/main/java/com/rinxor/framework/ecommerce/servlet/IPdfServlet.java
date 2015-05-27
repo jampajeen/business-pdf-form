@@ -20,10 +20,8 @@ package com.rinxor.framework.ecommerce.servlet;
  * @author Thitipong Jampajeen <jampajeen@gmail.com>
  */
 public interface IPdfServlet {
-    
-    public String getFopConfigFilePath();
-    
+
     public String getUserXSLTFilePath();
-    
+
     public String getXmlData();
 }
